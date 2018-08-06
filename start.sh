@@ -66,10 +66,3 @@ else
 fi
 
 exit 0
-
-docker run -d -e VIRTUAL_HOST=staging.artconnectedopportunities.com \
-              -e LETSENCRYPT_HOST=staging.artconnectedopportunities.com \
-              -e LETSENCRYPT_EMAIL=webmaster@artconnected.ie \
-              --network=nginxproxy_default \
-              --name my_app \
-              httpd:alpine
