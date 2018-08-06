@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   nginx-web:
     image: nginx
@@ -10,11 +10,11 @@ services:
       - "${IP:-0.0.0.0}:80:80"
       - "${IP:-0.0.0.0}:443:443"
     volumes:
-      - ${NGINX_FILES_PATH:-./data}/conf.d:/etc/nginx/conf.d
-      - ${NGINX_FILES_PATH:-./data}/vhost.d:/etc/nginx/vhost.d
-      - ${NGINX_FILES_PATH:-./data}/html:/usr/share/nginx/html
-      - ${NGINX_FILES_PATH:-./data}/certs:/etc/nginx/certs:ro
-      - ${NGINX_FILES_PATH:-./data}/htpasswd:/etc/nginx/htpasswd:ro
+      - ${NGINX_FILES_PATH}/conf.d:/etc/nginx/conf.d
+      - ${NGINX_FILES_PATH}/vhost.d:/etc/nginx/vhost.d
+      - ${NGINX_FILES_PATH}/html:/usr/share/nginx/html
+      - ${NGINX_FILES_PATH}/certs:/etc/nginx/certs:ro
+      - ${NGINX_FILES_PATH}/htpasswd:/etc/nginx/htpasswd:ro
     logging:
       options:
         max-size: ${NGINX_WEB_LOG_MAX_SIZE:-4m}
@@ -26,11 +26,11 @@ services:
     container_name: ${DOCKER_GEN:-nginx-gen}
     restart: always
     volumes:
-      - ${NGINX_FILES_PATH:-./data}/conf.d:/etc/nginx/conf.d
-      - ${NGINX_FILES_PATH:-./data}/vhost.d:/etc/nginx/vhost.d
-      - ${NGINX_FILES_PATH:-./data}/html:/usr/share/nginx/html
-      - ${NGINX_FILES_PATH:-./data}/certs:/etc/nginx/certs:ro
-      - ${NGINX_FILES_PATH:-./data}/htpasswd:/etc/nginx/htpasswd:ro
+      - ${NGINX_FILES_PATH}/conf.d:/etc/nginx/conf.d
+      - ${NGINX_FILES_PATH}/vhost.d:/etc/nginx/vhost.d
+      - ${NGINX_FILES_PATH}/html:/usr/share/nginx/html
+      - ${NGINX_FILES_PATH}/certs:/etc/nginx/certs:ro
+      - ${NGINX_FILES_PATH}/htpasswd:/etc/nginx/htpasswd:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
     logging:
@@ -43,10 +43,10 @@ services:
     container_name: ${LETS_ENCRYPT:-nginx-letsencrypt}
     restart: always
     volumes:
-      - ${NGINX_FILES_PATH:-./data}/conf.d:/etc/nginx/conf.d
-      - ${NGINX_FILES_PATH:-./data}/vhost.d:/etc/nginx/vhost.d
-      - ${NGINX_FILES_PATH:-./data}/html:/usr/share/nginx/html
-      - ${NGINX_FILES_PATH:-./data}/certs:/etc/nginx/certs:rw
+      - ${NGINX_FILES_PATH}/conf.d:/etc/nginx/conf.d
+      - ${NGINX_FILES_PATH}/vhost.d:/etc/nginx/vhost.d
+      - ${NGINX_FILES_PATH}/html:/usr/share/nginx/html
+      - ${NGINX_FILES_PATH}/certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       NGINX_DOCKER_GEN_CONTAINER: ${DOCKER_GEN:-nginx-gen}
@@ -55,8 +55,3 @@ services:
       options:
         max-size: ${NGINX_LETSENCRYPT_LOG_MAX_SIZE:-2m}
         max-file: ${NGINX_LETSENCRYPT_LOG_MAX_FILE:-10}
-
-networks:
-  default:
-    external:
-      name: ${NETWORK:-webproxy}
