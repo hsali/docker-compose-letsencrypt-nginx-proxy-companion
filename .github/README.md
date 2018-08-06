@@ -1,4 +1,4 @@
-# Web Proxy using Docker, NGINX and Let's Encrypt
+# Web Proxy using Docker, NGINX and Let's Encrypt with docker-compose file version 2
 
 With this repo you will be able to set up your server with multiple sites using a single NGINX proxy to manage your connections, automating your apps container (port 80 and 443) to auto renew your ssl certificates with Let´s Encrypt.
 
@@ -118,6 +118,9 @@ Your proxy is ready to go!
 ## Starting your web containers
 
 After following the steps above you can start new web containers with port 80 open and add the option `-e VIRTUAL_HOST=your.domain.com` so proxy will automatically generate the reverse script in NGINX Proxy to forward new connections to your web/app container, as of:
+
+network should be same which your docker-compose created. It is mostly like folder name without any special character. e.g
+forlder name : nginx_proxy => network name : nginxproxy_default
 
 ```bash
 docker run -d -e VIRTUAL_HOST=your.domain.com \
